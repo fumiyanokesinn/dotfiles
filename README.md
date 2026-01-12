@@ -1,42 +1,42 @@
 # Dotfiles
 
-Personal dotfiles managed with GNU Stow.
+GNU Stowで管理する個人用dotfiles
 
-## Contents
+## 内容
 
-- **wezterm**: WezTerm terminal emulator configuration
-- **fish**: Fish shell configuration with fzf integration
-- **starship**: Starship prompt configuration (minimal 2-line setup)
-- **git**: Git configuration and global gitignore
-- **nvim**: Neovim configuration with LSP, Treesitter, and lazy.nvim
-- **kitty**: Kitty terminal emulator configuration
+- **wezterm**: WezTermターミナルエミュレータの設定
+- **fish**: Fish shellの設定（fzf統合付き）
+- **starship**: Starshipプロンプトの設定（ミニマルな2行構成）
+- **git**: Gitの設定とグローバルgitignore
+- **nvim**: Neovimの設定（LSP、Treesitter、lazy.nvim）
+- **kitty**: Kittyターミナルエミュレータの設定
 
-## Prerequisites
+## 必要なもの
 
 - [GNU Stow](https://www.gnu.org/software/stow/)
 - [Fish Shell](https://fishshell.com/)
 - [Starship](https://starship.rs/)
 - [Neovim](https://neovim.io/) (0.11+)
-- [WezTerm](https://wezfurlong.org/wezterm/) or [Kitty](https://sw.kovidgoyal.net/kitty/)
+- [WezTerm](https://wezfurlong.org/wezterm/) または [Kitty](https://sw.kovidgoyal.net/kitty/)
 
-### Install GNU Stow
+### GNU Stowのインストール
 
 ```bash
 brew install stow
 ```
 
-## Installation
+## インストール
 
-### Clone the repository
+### リポジトリのクローン
 
 ```bash
 git clone <your-repo-url> ~/Workspace/dotfiles
 cd ~/Workspace/dotfiles
 ```
 
-### Backup existing configurations
+### 既存の設定のバックアップ
 
-Before installing, backup your existing configurations:
+インストール前に、既存の設定をバックアップしてください：
 
 ```bash
 mkdir -p ~/config_backup
@@ -48,33 +48,33 @@ mv ~/.config/nvim ~/config_backup/nvim_backup
 mv ~/.config/kitty ~/config_backup/kitty_backup
 ```
 
-### Install all configurations
+### すべての設定をインストール
 
 ```bash
 cd ~/Workspace/dotfiles
 stow wezterm fish starship git nvim kitty
 ```
 
-### Install specific configurations
+### 特定の設定のみインストール
 
 ```bash
-# Install only fish and starship
+# fishとstarshipのみインストール
 stow fish starship
 
-# Install only wezterm
+# weztermのみインストール
 stow wezterm
 ```
 
-## Uninstallation
+## アンインストール
 
-To remove the symlinks:
+シンボリックリンクを削除する場合：
 
 ```bash
 cd ~/Workspace/dotfiles
 stow -D wezterm fish starship git nvim kitty
 ```
 
-## Structure
+## ディレクトリ構造
 
 ```
 dotfiles/
@@ -106,51 +106,51 @@ dotfiles/
             └── ...
 ```
 
-## Features
+## 機能
 
 ### Fish Shell
-- fzf integration for history search (Ctrl+R)
-- Auto `ls` on directory change
-- Fisher plugin manager
-- goenv integration
+- fzf統合による履歴検索（Ctrl+R）
+- ディレクトリ変更時の自動`ls`実行
+- Fisherプラグインマネージャー
+- goenv統合
 
 ### Starship
-- Ultra minimal 2-line prompt
-- Directory display on first line
-- Command duration tracking
-- Custom cursor symbols
+- 超ミニマルな2行プロンプト
+- 1行目にディレクトリ表示
+- コマンド実行時間トラッキング
+- カスタムカーソルシンボル
 
 ### WezTerm
-- Fish shell as default
+- デフォルトシェルがFish
 - JetBrainsMono Nerd Font
-- Tokyo Night color scheme
-- Transparent background (0.92 opacity)
-- Vim-like pane navigation (Cmd+h/j/k/l)
-- Split panes (Cmd+d horizontal, Cmd+Shift+d vertical)
+- Tokyo Nightカラースキーム
+- 透過背景（0.92不透明度）
+- Vim風ペインナビゲーション（Cmd+h/j/k/l）
+- ペイン分割（Cmd+dで水平分割、Cmd+Shift+dで垂直分割）
 
 ### Neovim
-- lazy.nvim plugin manager
-- LSP support (gopls, ts_ls)
-- Treesitter syntax highlighting
-- Snacks.nvim for file navigation
-- blink.cmp for completion
-- Tokyo Night theme with transparent background
-- Git integration with gitsigns
+- lazy.nvimプラグインマネージャー
+- LSPサポート（gopls、ts_ls）
+- Treesitterシンタックスハイライト
+- Snacks.nvimによるファイルナビゲーション
+- blink.cmpによる補完
+- Tokyo Nightテーマ（透過背景付き）
+- gitsignsによるGit統合
 
 ### Kitty
-- Similar configuration to WezTerm
-- Powerline tab bar style
-- Background image support
-- 20000 lines scrollback
+- WezTermと類似の設定
+- Powerlineタブバースタイル
+- 背景画像サポート
+- 20000行のスクロールバック
 
-## Adding New Configurations
+## 新しい設定の追加方法
 
-1. Create a new directory in `~/Workspace/dotfiles/`
-2. Mirror the home directory structure inside it
-3. Add your configuration files
-4. Run `stow <directory-name>` from the dotfiles root
+1. `~/Workspace/dotfiles/`に新しいディレクトリを作成
+2. その中にホームディレクトリの構造を再現
+3. 設定ファイルを追加
+4. dotfilesルートから`stow <ディレクトリ名>`を実行
 
-Example:
+例：
 
 ```bash
 cd ~/Workspace/dotfiles
@@ -159,6 +159,6 @@ cp ~/.config/tmux/tmux.conf tmux/.config/tmux/
 stow tmux
 ```
 
-## License
+## ライセンス
 
 MIT
