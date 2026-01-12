@@ -1,0 +1,79 @@
+# =====================================
+# Ultra minimal 2-line prompt
+# =====================================
+
+add_newline = true
+command_timeout = 1000
+
+# ---- 上段：ディレクトリのみ ----
+[directory]
+format = "[$path]($style) \n"
+style = "bold 255 bg:25"
+truncation_length = 3
+truncate_to_repo = false
+
+# ---- 下段：入力カーソルのみ ----
+[character]
+success_symbol = "[❯](bold 47)"
+error_symbol   = "[❯](bold 9)"
+
+# ---- すべて無効化 ----
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[git_branch]
+disabled = true
+
+[git_status]
+disabled = true
+
+[git_state]
+disabled = true
+
+[git_commit]
+disabled = true
+
+[git_metrics]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[golang]
+disabled = true
+
+[python]
+disabled = true
+
+[rust]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[aws]
+disabled = true
+
+[env_var]
+disabled = true
+
+[package]
+disabled = true
+
+[cmd_duration]
+disabled = false
+min_time = 0
+format = "took [$duration]($style) "
+style = "bold yellow"
+
+[terraform]
+disabled = true

@@ -1,0 +1,2 @@
+# Global gitignore
+**/.claude/settings.local.json

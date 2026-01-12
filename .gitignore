@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+Thumbs.db
+
+# Fish shell
+fish/.config/fish/fish_variables
+
+# Neovim
+nvim/.config/nvim/lazy-lock.json
+nvim/.config/nvim/.claude/
+
+# Kitty backgrounds (optional - uncomment if you don't want to track images)
+# kitty/.config/kitty/backgrounds/
+
+# Sensitive information
+**/*.local
+**/secrets.*
+**/.env
