@@ -1,7 +1,9 @@
 [user]
 	name = fumiyanokesinn
-	email = fumiya.shindori@light-inc.com
+	email = shindori238@gmail.com
 [rerere]
 	enabled = true
 [submodule]
 	recurse = true
+[http]
+	cookiefile = /Users/user/.gitcookies

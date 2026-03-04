@@ -29,3 +29,10 @@ if type -q goenv
     set -gx PATH "$GOENV_ROOT/shims" $PATH
     goenv init - | source
 end
+
+# =====================================
+# direnv
+# =====================================
+if type -q direnv
+    direnv hook fish | source
+end
