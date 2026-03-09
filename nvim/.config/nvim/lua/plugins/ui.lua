@@ -18,6 +18,10 @@ return {
       sources = {
         files = {
           hidden = true,
+          ignored = true,
+        },
+        git_branches = {
+          all = true,
         },
       },
     },
@@ -64,7 +68,7 @@ return {
     -- Git
     { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git status" },
     { "<leader>gc", function() Snacks.picker.git_log() end, desc = "Git commits" },
-    { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git branches" },
+    { "<leader>gb", function() Snacks.picker.git_branches({ all = true }) end, desc = "Git branches" },
     { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git file history" },
   },
 }
