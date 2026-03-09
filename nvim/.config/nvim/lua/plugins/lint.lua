@@ -34,6 +34,7 @@ return {
     opts = {
       ensure_installed = {
         "cspell",
+        "eslint_d",
       },
     },
   },
@@ -57,10 +58,10 @@ return {
       lint.linters_by_ft = {
         go = { "cspell" },
         gomod = { "cspell" },
-        javascript = { "cspell" },
-        javascriptreact = { "cspell" },
-        typescript = { "cspell" },
-        typescriptreact = { "cspell" },
+        javascript = { "eslint_d", "cspell" },
+        javascriptreact = { "eslint_d", "cspell" },
+        typescript = { "eslint_d", "cspell" },
+        typescriptreact = { "eslint_d", "cspell" },
         markdown = { "cspell" },
       }
 

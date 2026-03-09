@@ -48,6 +48,9 @@ return {
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
           vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+          vim.keymap.set("n", "<leader>co", function()
+            vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+          end, { buffer = args.buf, desc = "Organize imports" })
           -- フォーマットは conform.nvim に委譲
           vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
           vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
@@ -61,6 +64,7 @@ return {
         root_markers = { "go.mod", "go.work", ".git" },
         settings = {
           gopls = {
+            buildFlags = { "-tags=unit,integration,e2e,test" },
             analyses = {
               unusedparams = true,
             },

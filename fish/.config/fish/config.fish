@@ -28,6 +28,7 @@ if type -q goenv
     set -gx GOENV_ROOT "$HOME/.goenv"
     set -gx PATH "$GOENV_ROOT/shims" $PATH
     goenv init - | source
+    fish_add_path $GOPATH/bin
 end
 
 # =====================================
