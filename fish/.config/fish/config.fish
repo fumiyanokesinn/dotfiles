@@ -36,3 +36,11 @@ end
 if type -q direnv
     direnv hook fish | source
 end
+
+# =====================================
+# zoxide (smart cd)
+# =====================================
+if type -q zoxide
+    zoxide init fish | source
+end
+fish_add_path $HOME/.local/bin

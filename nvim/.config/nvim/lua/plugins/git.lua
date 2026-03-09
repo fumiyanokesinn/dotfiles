@@ -1,4 +1,42 @@
 return {
+  -- Lazygit
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = "LazyGit",
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
+
+  -- Diffview (差分ビューア)
+  {
+    "sindrets/diffview.nvim",
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>dv", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
+      { "<leader>dh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
+      { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
+    },
+    opts = {},
+  },
+
+  -- Octo (GitHub PR レビュー)
+  {
+    "pwntester/octo.nvim",
+    cmd = "Octo",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "folke/snacks.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      picker = "snacks",
+    },
+  },
+
   -- 行ごとのGit差分表示
   {
     "lewis6991/gitsigns.nvim",
