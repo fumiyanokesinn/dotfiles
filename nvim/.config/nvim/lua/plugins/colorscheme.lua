@@ -32,12 +32,20 @@ return {
         hl.LineNr = { fg = "#a9b1d6", bg = "#1a1b26", blend = 70 }
         hl.CursorLineNr = { fg = "#7aa2f7", bg = "#1a1b26", bold = true, blend = 70 }
 
-        -- コメント（明るく、背景付き）
-        hl.Comment = { fg = "#7dcfff", bg = "#1a1b26", italic = true, blend = 60 }
+        -- コメント（背景なし、明るい色で視認性確保）
+        hl.Comment = { fg = "#9ece6a", bg = "NONE", italic = true }
         hl["@comment"] = { link = "Comment" }
 
         -- Git blame（gitsigns）
-        hl.GitSignsCurrentLineBlame = { fg = "#9aa5ce", bg = "#1a1b26", italic = true, blend = 60 }
+        hl.GitSignsCurrentLineBlame = { fg = "#565f89", bg = "NONE", italic = true }
+
+        -- 文字列（VSCode Dark+風）
+        hl.String = { fg = "#ce9178" }
+        hl["@string"] = { link = "String" }
+
+        -- Flash（ジャンプラベルを目立たせる）
+        hl.FlashLabel = { fg = "#000000", bg = "#ff9e64", bold = true }
+        hl.FlashMatch = { fg = "#c0caf5", bg = "#3b4261" }
       end,
     },
     config = function(_, opts)

@@ -16,6 +16,27 @@ return {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewFileHistory" },
     keys = {
+      {
+        "<leader>dr",
+        function()
+          -- ブランチ一覧を取得してピッカーで選択→そのブランチとの差分を表示
+          local branches = vim.fn.systemlist("git branch -a --format='%(refname:short)' --sort=-committerdate")
+          local current = vim.fn.system("git branch --show-current"):gsub("%s+", "")
+          -- 現在のブランチを除外
+          branches = vim.tbl_filter(function(b) return b ~= current end, branches)
+
+          vim.ui.select(branches, { prompt = "Base branch:" }, function(choice)
+            if not choice then return end
+            local base = vim.fn.system("git merge-base HEAD " .. choice):gsub("%s+", "")
+            if base == "" then
+              vim.notify("merge-base が見つかりません", vim.log.levels.ERROR)
+              return
+            end
+            vim.cmd("DiffviewOpen " .. base .. "...HEAD")
+          end)
+        end,
+        desc = "Diffview PR Review (select base branch)",
+      },
       { "<leader>dv", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
       { "<leader>dh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
       { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
