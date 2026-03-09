@@ -23,9 +23,19 @@ return {
           enabled = true,
         },
       },
+      routes = {
+        -- 通常のコマンド出力メッセージをスキップ（エラー・警告は表示）
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+          },
+          opts = { skip = true },
+        },
+      },
       presets = {
         bottom_search = false,
-        cmdline_output_to_split = true,
+        cmdline_output_to_split = false,
         long_message_to_split = true,
         lsp_doc_border = true,
       },

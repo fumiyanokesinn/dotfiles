@@ -21,7 +21,36 @@ return {
         },
       },
     },
-    indent = { enabled = true },
+    indent = {
+      enabled = true,
+      indent = {
+        char = "▏",
+        hl = {
+          "SnacksIndent1",
+          "SnacksIndent2",
+          "SnacksIndent3",
+          "SnacksIndent4",
+          "SnacksIndent5",
+          "SnacksIndent6",
+          "SnacksIndent7",
+          "SnacksIndent8",
+        },
+      },
+      scope = {
+        char = "▏",
+        enabled = true,
+      },
+      chunk = {
+        enabled = true,
+        char = {
+          corner_top = "╭",
+          corner_bottom = "╰",
+          horizontal = "─",
+          vertical = "│",
+          arrow = ">",
+        },
+      },
+    },
     dim = { enabled = true },
   },
   keys = {

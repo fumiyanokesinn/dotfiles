@@ -40,6 +40,7 @@ return {
       { "<leader>dv", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
       { "<leader>dh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
       { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
+      { "<leader>dt", "<cmd>DiffviewToggleFiles<cr>", desc = "Diffview Toggle Files" },
     },
     opts = {},
   },
@@ -70,6 +71,8 @@ return {
         topdelete = { text = "‾" },
         changedelete = { text = "~" },
       },
+      numhl = true,
+      linehl = true,
       signs_staged_enable = true,
       current_line_blame = true,
       current_line_blame_opts = {
