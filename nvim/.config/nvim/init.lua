@@ -4,6 +4,17 @@ vim.opt.relativenumber = false -- 相対行番号
 vim.opt.cursorline = true     -- カーソル行ハイライト
 vim.opt.signcolumn = "yes"    -- 左側のサイン列を常に表示
 vim.opt.clipboard = "unnamedplus" -- システムクリップボード連携
+vim.opt.spell = false             -- デフォルトはOFF（コード内の誤検出防止）
+vim.opt.spelllang = { "en", "cjk" } -- 英語チェック、日本語は除外
+vim.opt.spelloptions = "camel"      -- CamelCaseを単語分割してチェック
+
+-- テキスト系ファイルのみスペルチェック有効
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text", "gitcommit", "go" },
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"  -- インサートモードのみ縦線カーソル
 require('config.lazy')
 

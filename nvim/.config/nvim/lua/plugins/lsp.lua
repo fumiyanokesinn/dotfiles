@@ -29,6 +29,12 @@ return {
       "mason-org/mason-lspconfig.nvim",
     },
     config = function()
+      -- LSPファイルウォッチャーのENOENTエラー回避
+      local ok, wf = pcall(require, "vim.lsp._watchfiles")
+      if ok then
+        wf._watchfunc = function() return function() end end
+      end
+
       -- 共通キーマップ
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
