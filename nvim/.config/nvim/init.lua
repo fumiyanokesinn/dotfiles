@@ -1,3 +1,9 @@
+-- Volta (Node/npm) の PATH を確保
+vim.env.VOLTA_HOME = vim.env.VOLTA_HOME or (vim.env.HOME .. "/.volta")
+if not string.find(vim.env.PATH, vim.env.VOLTA_HOME) then
+  vim.env.PATH = vim.env.VOLTA_HOME .. "/bin:" .. vim.env.PATH
+end
+
 -- 基本設定
 vim.opt.number = true         -- 行番号
 vim.opt.relativenumber = false -- 相対行番号
