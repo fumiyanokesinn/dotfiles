@@ -21,12 +21,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.spell = true
   end,
 })
+vim.opt.smoothscroll = true  -- 折り返し行を表示行単位でスクロール
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"  -- インサートモードのみ縦線カーソル
 require('config.lazy')
 
 -- ファイル内置換（カーソル上の単語を自動入力）
 vim.keymap.set("n", "<leader>s", ":%s/<C-r><C-w>/<C-r><C-w>/g<Left><Left>", { desc = "Replace word under cursor" })
 vim.keymap.set("v", "<leader>s", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { desc = "Replace selected text" })
+
+-- PageDown/PageUp でスクロールしてカーソルを画面中央に保つ
+vim.keymap.set("n", "<PageDown>", "10<C-d>zz", { desc = "Scroll down 10 lines and center" })
+vim.keymap.set("n", "<PageUp>", "10<C-u>zz", { desc = "Scroll up 10 lines and center" })
 
 -- ウィンドウ移動（Ctrl+h/j/k/l）
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })

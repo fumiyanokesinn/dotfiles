@@ -55,6 +55,7 @@ return {
         },
       },
     },
+    scroll = { enabled = true },
     dim = { enabled = true },
   },
   keys = {
