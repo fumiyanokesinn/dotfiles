@@ -4,12 +4,18 @@ GNU Stowで管理する個人用dotfiles
 
 ## 内容
 
-- **wezterm**: WezTermターミナルエミュレータの設定
 - **fish**: Fish shellの設定（fzf統合付き）
 - **starship**: Starshipプロンプトの設定（ミニマルな2行構成）
 - **git**: Gitの設定とグローバルgitignore
 - **nvim**: Neovimの設定（LSP、Treesitter、lazy.nvim）
 - **kitty**: Kittyターミナルエミュレータの設定
+- **claude**: Claude Codeの設定（CLAUDE.md、MCP、エージェント、権限設定）
+- **vscode**: VSCodeの設定（settings.json、keybindings.json、拡張機能リスト）
+- **raycast**: Raycastの設定（.rayconfig エクスポート、plist）
+- **gh**: GitHub CLIの設定（config.yml）
+- **npm**: npm/pnpmの設定（.npmrc）
+- **Brewfile**: Homebrewパッケージ一覧（brew, cask, フォント）
+- **macos.sh**: macOSシステム設定（Dock, トラックパッド, ダークモード等）
 
 ## 必要なもの
 
@@ -17,7 +23,7 @@ GNU Stowで管理する個人用dotfiles
 - [Fish Shell](https://fishshell.com/)
 - [Starship](https://starship.rs/)
 - [Neovim](https://neovim.io/) (0.11+)
-- [WezTerm](https://wezfurlong.org/wezterm/) または [Kitty](https://sw.kovidgoyal.net/kitty/)
+- [Kitty](https://sw.kovidgoyal.net/kitty/)
 
 ### GNU Stowのインストール
 
@@ -52,36 +58,50 @@ mv ~/.config/kitty ~/config_backup/kitty_backup
 
 ```bash
 cd ~/Workspace/dotfiles
-stow wezterm fish starship git nvim kitty
+./install.sh
 ```
+
+インストールスクリプトが以下を自動で行います：
+- Stowパッケージ（fish, starship, git, nvim, kitty, cspell）のシンボリックリンク作成
+- VSCode設定のシンボリックリンク作成 + 拡張機能インストール
+- Claude Code、gh CLI、npmrc のシンボリックリンク作成
+- Homebrewパッケージのインストール（Brewfile）
+- Raycast設定のインポート（.rayconfig）
+- macOSシステム設定の適用（確認あり）
 
 ### 特定の設定のみインストール
 
 ```bash
-# fishとstarshipのみインストール
+# Stowパッケージ（fish, starship等）
 stow fish starship
 
-# weztermのみインストール
-stow wezterm
+# VSCode（パスにスペースがあるため--target指定）
+stow --no-folding -t "$HOME/Library/Application Support/Code/User" vscode
+
+# Claude Code（install.shのClaude部分を実行、または手動でシンボリックリンク）
+ln -s ~/Workspace/dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 ## アンインストール
 
-シンボリックリンクを削除する場合：
-
 ```bash
 cd ~/Workspace/dotfiles
-stow -D wezterm fish starship git nvim kitty
+
+# Stowパッケージ
+stow -D fish starship git nvim kitty cspell
+
+# VSCode
+stow -D -t "$HOME/Library/Application Support/Code/User" vscode
+
+# Claude Code
+rm ~/.claude/CLAUDE.md ~/.claude/.mcp.json ~/.claude/.claude/settings.local.json
+rm ~/.claude/agents/review-layout.md ~/.claude/agents/slack-communicator.md
 ```
 
 ## ディレクトリ構造
 
 ```
 dotfiles/
-├── wezterm/
-│   └── .config/
-│       └── wezterm/
-│           └── wezterm.lua
 ├── fish/
 │   └── .config/
 │       └── fish/
@@ -100,10 +120,33 @@ dotfiles/
 │   └── .config/
 │       └── nvim/
 │           └── ...
-└── kitty/
-    └── .config/
-        └── kitty/
-            └── ...
+├── kitty/
+│   └── .config/
+│       └── kitty/
+│           └── ...
+├── claude/                  # シンボリックリンク（install.sh経由）
+│   ├── CLAUDE.md            #   -> ~/.claude/CLAUDE.md
+│   ├── .mcp.json            #   -> ~/.claude/.mcp.json
+│   ├── agents/              #   -> ~/.claude/agents/*.md
+│   │   ├── review-layout.md
+│   │   └── slack-communicator.md
+│   └── .claude/
+│       └── settings.local.json  # -> ~/.claude/.claude/settings.local.json
+├── vscode/                  # Stow --target（install.sh経由）
+│   ├── settings.json        #   -> ~/Library/Application Support/Code/User/
+│   ├── keybindings.json
+│   └── extensions.txt       #   拡張機能リスト（参照用）
+├── raycast/                 # Raycast設定（install.shでインポート）
+│   ├── Raycast.rayconfig    #   完全エクスポート（スニペット、クイックリンク等含む）
+│   └── com.raycast.macos.plist  # plist設定のバックアップ
+├── gh/                      # GitHub CLI（install.sh経由）
+│   └── .config/gh/
+│       └── config.yml       #   -> ~/.config/gh/config.yml
+├── npm/                     # npm/pnpm（install.sh経由）
+│   └── .npmrc               #   -> ~/.npmrc
+├── Brewfile                 # Homebrewパッケージ一覧
+├── macos.sh                 # macOSシステム設定スクリプト
+└── install.sh               # 統合インストールスクリプト
 ```
 
 ## 機能
@@ -120,14 +163,6 @@ dotfiles/
 - コマンド実行時間トラッキング
 - カスタムカーソルシンボル
 
-### WezTerm
-- デフォルトシェルがFish
-- JetBrainsMono Nerd Font
-- Tokyo Nightカラースキーム
-- 透過背景（0.92不透明度）
-- Vim風ペインナビゲーション（Cmd+h/j/k/l）
-- ペイン分割（Cmd+dで水平分割、Cmd+Shift+dで垂直分割）
-
 ### Neovim
 - lazy.nvimプラグインマネージャー
 - LSPサポート（gopls、ts_ls）
@@ -142,6 +177,29 @@ dotfiles/
 - Powerlineタブバースタイル
 - 背景画像サポート
 - 20000行のスクロールバック
+
+### Claude Code
+- グローバル指示（CLAUDE.md）: BigQueryスケジュールドクエリ、Cloud SQLレプリカ接続
+- MCPサーバー設定（Slack等）
+- カスタムエージェント（レイアウトレビュー、Slack連携）
+- 権限設定（settings.local.json）
+
+### VSCode
+- エディタ設定（Go、TypeScript、PHP対応）
+- カスタムキーバインド（Claude Code連携、ターミナル操作、定義ジャンプ等）
+- 拡張機能リスト（`code --list-extensions`でエクスポート）
+
+### Raycast
+- `.rayconfig`による完全エクスポート（ホットキー、スニペット、クイックリンク、拡張機能設定等）
+- 設定を更新したら再エクスポート: Raycast > Settings > Advanced > Export で `raycast/Raycast.rayconfig` に上書き保存
+
+### Homebrew
+- `Brewfile`でbrew, cask, フォント, VSCode拡張を一括管理
+- 更新: `brew bundle dump --describe --force --file=~/Workspace/dotfiles/Brewfile`
+
+### macOS
+- Dock autohide, トラックパッドのタップでクリック, ホットコーナー, ダークモード等
+- `./macos.sh` で一括適用
 
 ## 新しい設定の追加方法
 

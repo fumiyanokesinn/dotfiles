@@ -32,6 +32,19 @@ return {
     opts = {},
   },
 
+  -- テキストオブジェクト（関数、引数、条件分岐などを操作対象に）
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      vim.keymap.set({ "x", "o" }, "ia", function() require("nvim-treesitter-textobjects.select").select_textobject("@parameter.inner", "textobjects") end, { desc = "inner argument" })
+      vim.keymap.set({ "x", "o" }, "aa", function() require("nvim-treesitter-textobjects.select").select_textobject("@parameter.outer", "textobjects") end, { desc = "outer argument" })
+      vim.keymap.set({ "x", "o" }, "if", function() require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects") end, { desc = "inner function" })
+      vim.keymap.set({ "x", "o" }, "af", function() require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects") end, { desc = "outer function" })
+    end,
+  },
+
   -- 画面上部に現在の関数/メソッド名をスティッキー表示
   {
     "nvim-treesitter/nvim-treesitter-context",

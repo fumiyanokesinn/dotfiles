@@ -33,11 +33,34 @@ vim.keymap.set("v", "<leader>s", '"zy:%s/<C-r>z/<C-r>z/g<Left><Left>', { desc = 
 vim.keymap.set("n", "<PageDown>", "10<C-d>zz", { desc = "Scroll down 10 lines and center" })
 vim.keymap.set("n", "<PageUp>", "10<C-u>zz", { desc = "Scroll up 10 lines and center" })
 
+-- Go test を実行してエラーをquickfixに表示
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "go",
+  callback = function()
+    vim.opt_local.makeprg = "go test -count=1 ./..."
+    vim.opt_local.errorformat = "%f:%l:%c: %m,%f:%l: %m"
+  end,
+})
+vim.keymap.set("n", "<leader>tq", function()
+  vim.cmd("make")
+  vim.cmd("Trouble qflist open")
+end, { desc = "Go test → quickfix" })
+
+-- プロジェクトルートでターミナルを開く
+vim.keymap.set("n", "<leader>mt", function()
+  Snacks.terminal(nil, { cwd = vim.fn.getcwd() })
+end, { desc = "Terminal at project root" })
+
 -- ウィンドウ移動（Ctrl+h/j/k/l）
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to below window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to above window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
+-- ターミナルモードでもCtrl+h/j/k/lでウィンドウ移動
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Move to left window" })
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Move to below window" })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Move to above window" })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Move to right window" })
 
 -- インデントガイドの色（レインボー）
 local indent_colors = {

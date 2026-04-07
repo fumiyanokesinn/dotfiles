@@ -41,6 +41,23 @@ return {
       { "<leader>dh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History" },
       { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
       { "<leader>dt", "<cmd>DiffviewToggleFiles<cr>", desc = "Diffview Toggle Files" },
+      {
+        "<leader>dl",
+        function()
+          local diffview = require("diffview")
+          local lib = require("diffview.lib")
+          local view = lib.get_current_view()
+          if not view then return end
+          -- 現在の引数を保持して閉じる→レイアウトを切り替えて再度開く
+          local is_split = (diffview.config and diffview.config.view.default.layout == "diff2_horizontal")
+          diffview.setup(vim.tbl_deep_extend("force", diffview.config or {}, {
+            view = { default = { layout = is_split and "diff1_plain" or "diff2_horizontal" } },
+          }))
+          vim.cmd("DiffviewClose")
+          vim.cmd("DiffviewOpen")
+        end,
+        desc = "Toggle diff layout (single/split)",
+      },
     },
     config = function(_, opts)
       -- Diffハイライト（視認性向上）
@@ -51,6 +68,7 @@ return {
       require("diffview").setup(opts)
     end,
     opts = {
+      diff_context = 99999,
       view = {
         default = {
           layout = "diff2_horizontal",
