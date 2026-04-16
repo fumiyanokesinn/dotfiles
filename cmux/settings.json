@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux-settings.schema.json",
+  "schemaVersion": 1,
+
+  // kitty のキーバインドにできる限り合わせる。
+  // - cmd+d / cmd+shift+d  : 分割（kitty と同一、cmux デフォルトと一致）
+  // - cmd+] / cmd+[       : ワークスペース切替（サイドバータブ前後）
+  // - cmd+shift+] / [     : サーフェス（タブ相当）切替
+  // - cmd+w               : 閉じる（一致）
+  // - cmd+f               : 検索（一致）
+  "shortcuts": {
+    "bindings": {
+      "newTab": "cmd+t",
+      "newSurface": "cmd+opt+t",
+      "nextSidebarTab": "cmd+]",
+      "prevSidebarTab": "cmd+[",
+      "nextSurface": "cmd+shift+]",
+      "prevSurface": "cmd+shift+[",
+      "browserBack": "cmd+opt+[",
+      "browserForward": "cmd+opt+]",
+      "focusLeft": "cmd+h",
+      "focusDown": "cmd+j",
+      "focusUp": "cmd+k",
+      "focusRight": "cmd+l"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+# cmux 内蔵 Ghostty 用設定。kitty.conf にできる限り合わせている。
+# リンク先: ~/.config/ghostty/config
+
+# ===== フォント =====
+# 日本語は JetBrainsMono に含まれないので ヒラギノ角ゴシック にフォールバック
+# Bold 時も同様に指定しないと cmux(Ghostty fork) は regular で描画する
+font-family = "JetBrainsMono Nerd Font"
+font-family = "ヒラギノ角ゴシック"
+font-family-bold = "JetBrainsMono Nerd Font"
+font-family-bold = "ヒラギノ角ゴシック"
+font-size = 14
+adjust-cell-height = 10%
+
+# ===== 見た目 =====
+# 視認性優先: 背景不透明化＋ブラー無効でANSI色との混色防止
+background-opacity = 1.0
+background-blur = 0
+
+# 可読性ブースト（弱視対策）
+bold-is-bright = true
+font-thicken = true
+minimum-contrast = 1.1
+
+# ===== カーソル =====
+cursor-style = bar
+cursor-style-blink = false
+cursor-color = #c0caf5
+cursor-text = #1a1b26
+
+# ===== 選択 =====
+selection-foreground = #c0caf5
+selection-background = #33467c
+
+# ===== スクロール =====
+scrollback-limit = 20000
+copy-on-select = clipboard
+mouse-scroll-multiplier = 4
+
+# ===== パディング =====
+window-padding-x = 6
+window-padding-y = 6
+window-padding-balance = true
+
+# ===== カラーテーマ =====
+theme = TokyoNight Night
+
+# ===== 背景画像 =====
+# kitty.conf と同じ値を移植
+#   kitty background_image_layout scaled → Ghostty stretch
+background = 0e1418
+background-image = ~/.config/kitty/backgrounds/ukiyoe.jpg
+background-image-opacity = 0.22
+background-image-fit = stretch
+background-image-position = center
