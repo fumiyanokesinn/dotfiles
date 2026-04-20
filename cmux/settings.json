@@ -23,5 +23,23 @@
       "focusUp": "cmd+k",
       "focusRight": "cmd+l"
     }
+  },
+
+  // 視力配慮: 赤＋全面塗りで非フォーカス時も視界周辺で認識可
+  "workspaceColors": {
+    "notificationBadgeColor": "#FF3B30",
+    "indicatorStyle": "solidFill"
+  },
+
+  // 通知: OS ポップアップと音は cmux-notify.sh（日本語）に一本化
+  //   - cmux 本体の OS 通知ポップアップは macOS システム設定 > 通知 > cmux で OFF 推奨
+  //   - cmux は dockBadge / paneFlash / menuBar 等の cmux 内可視化のみ担当
+  //   - sound: "none" で cmux 側の音抑止（hook script 側で afplay 発行）
+  "notifications": {
+    "sound": "none",
+    "dockBadge": true,
+    "unreadPaneRing": true,
+    "paneFlash": true,
+    "showInMenuBar": true
   }
 }

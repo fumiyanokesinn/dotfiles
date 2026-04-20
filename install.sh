@@ -63,7 +63,22 @@ for agent in "$DOTFILES_DIR/claude/agents/"*.md; do
   link_file "$agent" "$CLAUDE_DIR/agents/$(basename "$agent")"
 done
 
-echo "  [ok] CLAUDE.md, .mcp.json, agents/, .claude/settings.local.json"
+# hooks
+for hook in "$DOTFILES_DIR/claude/hooks/"*.sh; do
+  [ -f "$hook" ] || continue
+  link_file "$hook" "$CLAUDE_DIR/hooks/$(basename "$hook")"
+  chmod +x "$hook"
+done
+
+echo "  [ok] CLAUDE.md, .mcp.json, agents/, hooks/, .claude/settings.local.json"
+
+# --- cmux ---
+echo "==> cmux"
+link_file "$DOTFILES_DIR/cmux/settings.json" "$HOME/.config/cmux/settings.json"
+link_file "$DOTFILES_DIR/cmux/config"        "$HOME/.config/ghostty/config"
+# cmux は Library 側も検索するため両方にリンク
+link_file "$DOTFILES_DIR/cmux/config"        "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+echo "  [ok] settings.json, ghostty/config"
 
 # --- gh CLI ---
 echo "==> gh CLI"
