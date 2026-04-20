@@ -47,6 +47,7 @@ if [ -n "$CMUX_BIN" ] && [ -n "${CMUX_WORKSPACE_ID:-}" ]; then
     Stop|SubagentStop)  echo "$EVENT" | "$CMUX_BIN" claude-hook stop          >/dev/null 2>&1 ;;
     SessionStart)       echo "$EVENT" | "$CMUX_BIN" claude-hook session-start >/dev/null 2>&1 ;;
     UserPromptSubmit)   echo "$EVENT" | "$CMUX_BIN" claude-hook prompt-submit >/dev/null 2>&1 ;;
+    Notification)       echo "$EVENT" | "$CMUX_BIN" claude-hook notification  >/dev/null 2>&1 ;;
   esac
 fi
 
