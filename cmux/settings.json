@@ -32,12 +32,12 @@
     "indicatorStyle": "solidFill"
   },
 
-  // 通知: OS ポップアップと音は cmux-notify.sh（日本語）に一本化
-  //   - cmux 本体の OS 通知ポップアップは macOS システム設定 > 通知 > cmux で OFF 推奨
-  //   - cmux は dockBadge / paneFlash / menuBar 等の cmux 内可視化のみ担当
-  //   - sound: "none" で cmux 側の音抑止（hook script 側で afplay 発行）
+  // 通知: cmux-notify.sh は Claude Code のイベントを cmux 本体に転送するのみ
+  //   - OS ポップアップは cmux 本体が発火（macOS システム設定 > 通知 > cmux で調整）
+  //   - 音は cmux 本体が発火（下記 sound プリセット）
+  //   - dockBadge / paneFlash / menuBar 等の可視化も cmux 本体が担当
   "notifications": {
-    "sound": "none",
+    "sound": "Glass",
     "dockBadge": true,
     "unreadPaneRing": true,
     "paneFlash": true,
