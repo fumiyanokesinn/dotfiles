@@ -8,6 +8,7 @@
   // - cmd+shift+] / [     : サーフェス（タブ相当）切替
   // - cmd+w               : 閉じる（一致）
   // - cmd+f               : 検索（一致）
+  //
   "shortcuts": {
     "bindings": {
       "newTab": "cmd+t",

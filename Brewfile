@@ -78,9 +78,8 @@ cask "brave-browser"
 cask "calibre"
 # Web debugging Proxy application
 cask "charles"
-# cmux は stable(0.63.2) で background-image バグあり。
-# nightly を手動インストール: https://github.com/manaflow-ai/cmux/releases/tag/nightly
-# → /Applications/cmux NIGHTLY.app
+# Ghostty-based terminal with vertical tabs and notifications for AI coding agents
+cask "cmux"
 # Voice and text chat software
 cask "discord"
 # App to build and share containerised applications and microservices
