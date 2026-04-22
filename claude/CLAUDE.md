@@ -109,3 +109,40 @@ bq query --project_id=palmu-prod --use_legacy_sql=false '
   '
   ```
 - テーブル一覧の確認: `EXTERNAL_QUERY("palmu-prod.asia-northeast1.palmu-report", "SHOW TABLES")`
+
+## 認証情報の取り扱い（Keychain 経由）
+
+外部サービスの認証情報は macOS Keychain に保存し、`~/.local/bin/` の汎用ツール経由で取得する。
+
+### コマンド
+
+- `setup-keychain <service>` — 対話的に username/password 入力 → Keychain 登録
+- `setup-keychain <service> --delete` — 削除
+- `setup-keychain --list` — 登録済みサービス一覧
+- `get-credentials <service>` — `ADMIN_USER=... / ADMIN_PASSWORD=...` 形式で stdout
+
+### 保存先
+
+- Keychain service: `user-creds/<service>`（例: `user-creds/basemachina`）
+- account: `username`, `password`
+
+### 使い方
+
+登録（ユーザー本人がターミナルで対話入力。Claude は実行しない）:
+```bash
+setup-keychain basemachina
+```
+
+Claude 側で使う（環境変数にロード）:
+```bash
+eval "$(get-credentials basemachina)"
+# $ADMIN_USER / $ADMIN_PASSWORD が使える
+```
+
+### ルール
+
+- **認証情報をチャット／会話ログに貼らない**。登録は必ず `setup-keychain` の対話入力で行う
+- **Bash で直接値を echo/print しない**。`eval "$(get-credentials ...)"` で環境変数経由のみ
+- **playwright-cli 等でフォーム入力する場合**、値を引数に直接渡さず、環境変数から参照する（`run-code` では `process.env` が使えないため、別途子プロセス経由で渡す工夫が必要）
+- 登録時は既存エントリを削除してから再登録（上書き）
+

@@ -2,6 +2,8 @@ tap "bufbuild/buf"
 tap "fumiyanokesinn/tap"
 tap "homebrew/services"
 tap "mas-cli/tap"
+# Simple, modern, secure file encryption
+brew "age"
 # New way of working with Protocol Buffers
 brew "buf"
 # Dependency manager for Cocoa projects

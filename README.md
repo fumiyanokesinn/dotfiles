@@ -14,6 +14,7 @@ GNU Stowで管理する個人用dotfiles
 - **raycast**: Raycastの設定（.rayconfig エクスポート、plist）
 - **gh**: GitHub CLIの設定（config.yml）
 - **npm**: npm/pnpmの設定（.npmrc）
+- **bin**: `~/.local/bin` 用汎用スクリプト（Keychain管理・移行ツール）
 - **Brewfile**: Homebrewパッケージ一覧（brew, cask, フォント）
 - **macos.sh**: macOSシステム設定（Dock, トラックパッド, ダークモード等）
 
@@ -216,6 +217,44 @@ mkdir -p tmux/.config/tmux
 cp ~/.config/tmux/tmux.conf tmux/.config/tmux/
 stow tmux
 ```
+
+## 新PCへの移行
+
+### Keychain 認証情報の移行（user-creds/*）
+
+`setup-keychain` で登録した認証情報は macOS Keychain に保存されるため、dotfiles（git）には含まれない。別PCへ移す場合は `age` で暗号化エクスポート→復号インポート。
+
+**旧PC（エクスポート）:**
+
+```bash
+# age 未導入なら
+brew install age
+
+# user-creds/* 全件を暗号化エクスポート
+export-keychain
+# → ~/keychain-backup-YYYYMMDD.age が出力される
+#    age パスフレーズを設定（復号時に必要）
+```
+
+**新PC（インポート）:**
+
+```bash
+# dotfiles セットアップ後（age は Brewfile に含まれる）
+./install.sh
+
+# バックアップを安全に転送（暗号化USB, AirDrop等）
+# dry-run で中身確認
+import-keychain ~/keychain-backup-YYYYMMDD.age --dry-run
+
+# 実登録
+import-keychain ~/keychain-backup-YYYYMMDD.age
+```
+
+**注意:**
+
+- `.age` ファイルは git 管理外。暗号化済だが扱いは秘密情報として
+- Claude Code 認証は Keychain の `Claude Code-credentials` に入るが移行対象外。新PCで `claude login` 再実行
+- パスフレーズは 1Password 等で別途管理
 
 ## ライセンス
 

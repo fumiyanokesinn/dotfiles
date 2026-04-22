@@ -1,0 +1,97 @@
+#!/bin/bash
+set -euo pipefail
+
+# 任意のサービス用のユーザー名・パスワードを macOS Keychain に登録する汎用ツール。
+#
+# 使い方:
+#   setup-keychain <service>           # 登録（対話プロンプト）
+#   setup-keychain <service> --delete  # 削除
+#   setup-keychain --list              # 登録済みサービス一覧
+#
+# 例:
+#   setup-keychain basemachina
+#
+# 登録先:
+#   service: user-creds/<service>
+#   account: username, password
+
+SERVICE_PREFIX="user-creds"
+
+list_services() {
+  echo "登録済みサービス一覧（${SERVICE_PREFIX}/*）:"
+  security dump-keychain 2>/dev/null \
+    | awk -v prefix="${SERVICE_PREFIX}/" '
+        /"svce"<blob>=/ {
+          line = $0
+          sub(/^.*"svce"<blob>="/, "", line)
+          sub(/".*$/, "", line)
+          if (index(line, prefix) == 1) print "  " line
+        }' \
+    | sort -u
+}
+
+usage() {
+  cat <<EOF
+使い方:
+  setup-keychain <service>           # 登録
+  setup-keychain <service> --delete  # 削除
+  setup-keychain --list              # 一覧
+
+例:
+  setup-keychain basemachina
+EOF
+}
+
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 1
+fi
+
+if [[ "$1" == "--list" ]]; then
+  list_services
+  exit 0
+fi
+
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
+SERVICE_NAME="$1"
+MODE="${2:-set}"
+FULL_SERVICE="${SERVICE_PREFIX}/${SERVICE_NAME}"
+
+if [[ "$MODE" == "--delete" ]]; then
+  security delete-generic-password -s "$FULL_SERVICE" -a "username" >/dev/null 2>&1 && echo "削除: ${FULL_SERVICE}/username" || true
+  security delete-generic-password -s "$FULL_SERVICE" -a "password" >/dev/null 2>&1 && echo "削除: ${FULL_SERVICE}/password" || true
+  echo "完了"
+  exit 0
+fi
+
+echo "--- ${SERVICE_NAME} 認証情報を Keychain に登録 ---"
+echo "service: ${FULL_SERVICE}"
+echo ""
+
+read -rp "ユーザー名（メールアドレス等）: " cred_user
+if [[ -z "$cred_user" ]]; then
+  echo "ERROR: ユーザー名が空です" >&2
+  exit 1
+fi
+
+read -rsp "パスワード: " cred_pass
+echo ""
+if [[ -z "$cred_pass" ]]; then
+  echo "ERROR: パスワードが空です" >&2
+  exit 1
+fi
+
+# 既存エントリを削除してから再登録
+security delete-generic-password -s "$FULL_SERVICE" -a "username" >/dev/null 2>&1 || true
+security delete-generic-password -s "$FULL_SERVICE" -a "password" >/dev/null 2>&1 || true
+
+security add-generic-password -s "$FULL_SERVICE" -a "username" -w "$cred_user" -U
+security add-generic-password -s "$FULL_SERVICE" -a "password" -w "$cred_pass" -U
+
+echo ""
+echo "登録完了: ${FULL_SERVICE}"
+echo "取得: get-credentials ${SERVICE_NAME}"

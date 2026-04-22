@@ -46,3 +46,5 @@ if type -q zoxide
 end
 fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.vite-plus/bin
+fish_add_path $HOME/.volta/bin
+fish_add_path $HOME/.npm-global/bin

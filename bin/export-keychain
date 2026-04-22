@@ -1,0 +1,80 @@
+#!/bin/bash
+set -euo pipefail
+
+# user-creds/* の Keychain エントリを age 暗号化してエクスポート。
+#
+# 使い方:
+#   export-keychain [出力パス]
+#     出力パスのデフォルト: ~/keychain-backup-YYYYMMDD.age
+#
+# 復号側は import-keychain を使う。
+#
+# 注意:
+#   - 出力ファイルは git 管理外。外部ストレージ（暗号化USB等）経由で新PCへ運ぶ
+#   - パスフレーズ方式（対称鍵）。忘れると復号不能
+
+SERVICE_PREFIX="user-creds"
+
+if ! command -v age >/dev/null 2>&1; then
+  echo "ERROR: age が未インストール" >&2
+  echo "  brew install age" >&2
+  exit 1
+fi
+
+OUTPUT="${1:-$HOME/keychain-backup-$(date +%Y%m%d).age}"
+
+if [[ -e "$OUTPUT" ]]; then
+  echo "ERROR: 出力ファイルが既に存在: $OUTPUT" >&2
+  exit 1
+fi
+
+# user-creds/* のサービス名一覧を取得
+services=()
+while IFS= read -r svc; do
+  services+=("$svc")
+done < <(
+  security dump-keychain 2>/dev/null \
+    | awk -v prefix="${SERVICE_PREFIX}/" '
+        /"svce"<blob>=/ {
+          line = $0
+          sub(/^.*"svce"<blob>="/, "", line)
+          sub(/".*$/, "", line)
+          if (index(line, prefix) == 1) print line
+        }' \
+    | sort -u
+)
+
+if [[ ${#services[@]} -eq 0 ]]; then
+  echo "ERROR: ${SERVICE_PREFIX}/* のエントリが見つからない" >&2
+  exit 1
+fi
+
+echo "エクスポート対象:"
+for s in "${services[@]}"; do
+  echo "  - $s"
+done
+echo ""
+
+# TSV 形式で stdin へ: service<TAB>account<TAB>value
+tmpfile=$(mktemp)
+trap 'rm -f "$tmpfile"' EXIT
+
+for svc in "${services[@]}"; do
+  for acc in username password; do
+    val=$(security find-generic-password -s "$svc" -a "$acc" -w 2>/dev/null || true)
+    if [[ -n "$val" ]]; then
+      printf '%s\t%s\t%s\n' "$svc" "$acc" "$val" >> "$tmpfile"
+    fi
+  done
+done
+
+echo "age パスフレーズ設定（新PCで復号時に必要）:"
+age --passphrase --output "$OUTPUT" "$tmpfile"
+
+echo ""
+echo "出力: $OUTPUT"
+echo "ファイルサイズ: $(wc -c < "$OUTPUT") bytes"
+echo ""
+echo "次のステップ:"
+echo "  1. $OUTPUT を新PCへ安全に転送"
+echo "  2. 新PC で: import-keychain $OUTPUT"

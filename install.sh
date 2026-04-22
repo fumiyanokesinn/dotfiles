@@ -80,6 +80,18 @@ link_file "$DOTFILES_DIR/cmux/config"        "$HOME/.config/ghostty/config"
 link_file "$DOTFILES_DIR/cmux/config"        "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 echo "  [ok] settings.json, ghostty/config"
 
+# --- bin/ (~/.local/bin) ---
+echo "==> bin (~/.local/bin)"
+LOCAL_BIN="$HOME/.local/bin"
+mkdir -p "$LOCAL_BIN"
+for script in "$DOTFILES_DIR/bin/"*; do
+  [ -f "$script" ] || continue
+  dst="$LOCAL_BIN/$(basename "$script")"
+  link_file "$script" "$dst"
+  chmod +x "$script"
+done
+echo "  [ok] $(ls "$DOTFILES_DIR/bin" | tr '\n' ' ')"
+
 # --- gh CLI ---
 echo "==> gh CLI"
 link_file "$DOTFILES_DIR/gh/.config/gh/config.yml" "$HOME/.config/gh/config.yml"

@@ -1,0 +1,78 @@
+#!/bin/bash
+set -euo pipefail
+
+# export-keychain で出力した .age ファイルを復号し、
+# user-creds/* として macOS Keychain に登録する。
+#
+# 使い方:
+#   import-keychain <バックアップ.age>
+#   import-keychain <バックアップ.age> --dry-run   # 復号して一覧のみ表示
+#
+# 既存エントリは上書きされる。
+
+if ! command -v age >/dev/null 2>&1; then
+  echo "ERROR: age が未インストール" >&2
+  echo "  brew install age" >&2
+  exit 1
+fi
+
+if [[ $# -eq 0 ]]; then
+  echo "使い方: import-keychain <バックアップ.age> [--dry-run]" >&2
+  exit 1
+fi
+
+INPUT="$1"
+DRYRUN="${2:-}"
+
+if [[ ! -f "$INPUT" ]]; then
+  echo "ERROR: ファイルが存在しない: $INPUT" >&2
+  exit 1
+fi
+
+tmpfile=$(mktemp)
+trap 'rm -f "$tmpfile"' EXIT
+
+echo "age パスフレーズ入力:"
+age --decrypt --output "$tmpfile" "$INPUT"
+
+# 復号結果を確認
+if [[ ! -s "$tmpfile" ]]; then
+  echo "ERROR: 復号結果が空" >&2
+  exit 1
+fi
+
+echo ""
+echo "復号成功: $(wc -l < "$tmpfile") 件"
+echo ""
+
+if [[ "$DRYRUN" == "--dry-run" ]]; then
+  echo "--- dry-run: 登録対象一覧 ---"
+  awk -F'\t' '{printf "  %s (%s)\n", $1, $2}' "$tmpfile" | sort -u
+  echo ""
+  echo "（dry-run のため実登録はスキップ）"
+  exit 0
+fi
+
+# 登録対象一覧表示
+echo "--- 登録対象 ---"
+awk -F'\t' '{print $1}' "$tmpfile" | sort -u | sed 's/^/  - /'
+echo ""
+
+read -rp "上記を Keychain に登録する（既存は上書き）。続行? (y/N): " ans
+if [[ "$ans" != "y" && "$ans" != "Y" ]]; then
+  echo "中止"
+  exit 0
+fi
+
+# TSV を読んで Keychain 登録
+count=0
+while IFS=$'\t' read -r svc acc val; do
+  [[ -z "$svc" ]] && continue
+  security delete-generic-password -s "$svc" -a "$acc" >/dev/null 2>&1 || true
+  security add-generic-password -s "$svc" -a "$acc" -w "$val" -U
+  count=$((count + 1))
+done < "$tmpfile"
+
+echo ""
+echo "完了: $count 件登録"
+echo "確認: setup-keychain --list"
