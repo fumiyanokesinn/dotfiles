@@ -54,6 +54,7 @@ link_file() {
 }
 
 link_file "$DOTFILES_DIR/claude/CLAUDE.md"                   "$CLAUDE_DIR/CLAUDE.md"
+link_file "$DOTFILES_DIR/claude/settings.json"               "$CLAUDE_DIR/settings.json"
 link_file "$DOTFILES_DIR/claude/.mcp.json"                   "$CLAUDE_DIR/.mcp.json"
 link_file "$DOTFILES_DIR/claude/.claude/settings.local.json" "$CLAUDE_DIR/.claude/settings.local.json"
 
@@ -63,6 +64,22 @@ for agent in "$DOTFILES_DIR/claude/agents/"*.md; do
   link_file "$agent" "$CLAUDE_DIR/agents/$(basename "$agent")"
 done
 
+# skills (subdirectory per skill)
+for skill_dir in "$DOTFILES_DIR/claude/skills/"*/; do
+  [ -d "$skill_dir" ] || continue
+  skill_name="$(basename "$skill_dir")"
+  for skill_file in "$skill_dir"*; do
+    [ -f "$skill_file" ] || continue
+    link_file "$skill_file" "$CLAUDE_DIR/skills/$skill_name/$(basename "$skill_file")"
+  done
+done
+
+# gcp-prod-guard
+for guard_file in "$DOTFILES_DIR/claude/gcp-prod-guard/"*; do
+  [ -f "$guard_file" ] || continue
+  link_file "$guard_file" "$CLAUDE_DIR/gcp-prod-guard/$(basename "$guard_file")"
+done
+
 # hooks
 for hook in "$DOTFILES_DIR/claude/hooks/"*.sh; do
   [ -f "$hook" ] || continue
@@ -70,7 +87,7 @@ for hook in "$DOTFILES_DIR/claude/hooks/"*.sh; do
   chmod +x "$hook"
 done
 
-echo "  [ok] CLAUDE.md, .mcp.json, agents/, hooks/, .claude/settings.local.json"
+echo "  [ok] CLAUDE.md, settings.json, .mcp.json, agents/, skills/, gcp-prod-guard/, hooks/, .claude/settings.local.json"
 
 # --- cmux ---
 echo "==> cmux"

@@ -1,8 +1,10 @@
 ---
 name: review-layout
-description: レイアウトガイドラインに基づくコードレビューエージェント。CSS/TSX/JSXファイルのグリッドシステム、ブレークポイント、リキッドレイアウト、DOM順序を検査する。レイアウトレビュー、CSSチェック、アクセシビリティ確認、グリッド設計の確認、レスポンシブ対応の確認を依頼されたときに使うこと。
+description: レイアウトガイドラインに基づくコードレビューエージェント。CSS/TSX/JSXファイルのグリッドシステム、ブレークポイント、リキッドレイアウト、DOM順序を検査する。レイアウトレビュー、CSSチェック、アクセシビリティ確認、グリッド設計の確認、レスポンシブ対応の確認を依頼されたときに使うこと。フロントエンド変更コミット前に proactively 起動。
 tools: Read, Grep, Glob, Bash
 model: sonnet
+color: green
+memory: project
 ---
 
 # review-layout: レイアウトレビュー

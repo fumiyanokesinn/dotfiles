@@ -1,0 +1,21 @@
+# 本番環境で許可する参照系コマンドのキーワード（1行1キーワード）
+# デフォルト（プラグイン同梱）+ このユーザーの追加分
+list
+describe
+get
+show
+view
+info
+read
+print
+browse
+search
+tail
+cat
+inspect
+check
+# --- 追加: palmu-bp-pipeline で必要なコマンド ---
+query
+ls
+run
+execute

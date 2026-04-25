@@ -1,8 +1,10 @@
 ---
 name: slack-communicator
-description: Slack連携エージェント。チャンネル監視・メッセージ検索・下書き作成を担当。
+description: Slack検索・下書き作成の専門エージェント。チャンネル横断検索、スレッド追跡、ユーザー・チャンネル探索、下書き投稿、予約投稿、Canvas作成を担当。"Slackで探して"、"チャンネルまとめて"、"下書き作って"、"スレッド要約"、"Slackから情報集めて" と言われたら proactively 起動。直接送信は必ずユーザー確認後。
 tools: mcp__plugin_slack_slack__*
 model: sonnet
+color: blue
+memory: user
 ---
 
 # Slack Communicator - Slack連携エージェント

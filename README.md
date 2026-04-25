@@ -95,8 +95,11 @@ stow -D fish starship git nvim kitty cspell
 stow -D -t "$HOME/Library/Application Support/Code/User" vscode
 
 # Claude Code
-rm ~/.claude/CLAUDE.md ~/.claude/.mcp.json ~/.claude/.claude/settings.local.json
-rm ~/.claude/agents/review-layout.md ~/.claude/agents/slack-communicator.md
+rm ~/.claude/CLAUDE.md ~/.claude/settings.json ~/.claude/.mcp.json ~/.claude/.claude/settings.local.json
+rm ~/.claude/agents/basemachina-operator.md ~/.claude/agents/review-layout.md ~/.claude/agents/slack-communicator.md
+rm -rf ~/.claude/skills/basemachina-skill
+rm ~/.claude/gcp-prod-guard/allowed-commands.txt
+rm ~/.claude/hooks/cmux-notify.sh
 ```
 
 ## ディレクトリ構造
@@ -127,10 +130,19 @@ dotfiles/
 │           └── ...
 ├── claude/                  # シンボリックリンク（install.sh経由）
 │   ├── CLAUDE.md            #   -> ~/.claude/CLAUDE.md
+│   ├── settings.json        #   -> ~/.claude/settings.json（permissions, hooks, enabledPlugins等）
 │   ├── .mcp.json            #   -> ~/.claude/.mcp.json
 │   ├── agents/              #   -> ~/.claude/agents/*.md
+│   │   ├── basemachina-operator.md
 │   │   ├── review-layout.md
 │   │   └── slack-communicator.md
+│   ├── skills/              #   -> ~/.claude/skills/<skill>/<files>
+│   │   └── basemachina-skill/
+│   │       └── SKILL.md
+│   ├── gcp-prod-guard/      #   -> ~/.claude/gcp-prod-guard/*
+│   │   └── allowed-commands.txt
+│   ├── hooks/               #   -> ~/.claude/hooks/*.sh
+│   │   └── cmux-notify.sh
 │   └── .claude/
 │       └── settings.local.json  # -> ~/.claude/.claude/settings.local.json
 ├── vscode/                  # Stow --target（install.sh経由）
@@ -181,9 +193,15 @@ dotfiles/
 
 ### Claude Code
 - グローバル指示（CLAUDE.md）: BigQueryスケジュールドクエリ、Cloud SQLレプリカ接続
-- MCPサーバー設定（Slack等）
-- カスタムエージェント（レイアウトレビュー、Slack連携）
-- 権限設定（settings.local.json）
+- ユーザー設定（settings.json）: permissions allow, hooks, statusLine, **enabledPlugins**, extraKnownMarketplaces, env
+- MCPサーバー設定（.mcp.json）: Slack等。OAuth は新PCで再認証
+- カスタムエージェント（agents/）: basemachina-operator, review-layout, slack-communicator
+- カスタムスキル（skills/）: basemachina-skill
+- gcp-prod-guard 許可コマンド（gcp-prod-guard/allowed-commands.txt）
+- フック（hooks/cmux-notify.sh）: cmux サイドバー連携
+- ローカル権限（.claude/settings.local.json）
+
+> **注**: settings.json はリンク経由でdotfiles実体に書き込まれるため、 `/plugin install` 等の操作で自動的に git diff が発生する。プラグイン構成も dotfiles で追跡される。
 
 ### VSCode
 - エディタ設定（Go、TypeScript、PHP対応）
