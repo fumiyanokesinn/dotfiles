@@ -12,7 +12,7 @@ description: ベースマキナ（palmu.basemachina.com）の操作ガイド。�
 | 項目 | 値 |
 |------|-----|
 | URL | `https://palmu.basemachina.com` |
-| 認証 | `./scripts/get-admin-credentials.sh basemachina` |
+| 認証 | `eval "$(get-credentials basemachina)"`（`~/.local/bin/get-credentials`、Keychain 経由） |
 | ドキュメント | https://docs.basemachina.com |
 | ビュー管理リポジトリ | `light-inc/basemachina`（GitHub） |
 
