@@ -50,12 +50,9 @@
       "Bash(docker logs:*)",
       "Bash(docker ps:*)",
       "Bash(ls:*)",
-      "Bash(rm:*)",
       "Bash(find:*)",
       "Bash(mkdir:*)",
       "Bash(touch:*)",
-      "Bash(mv:*)",
-      "Bash(chmod:*)",
       "Bash(cat:*)",
       "Bash(head:*)",
       "Bash(echo:*)",
@@ -128,28 +125,6 @@
       "mcp__notion__notion-search",
       "mcp__notion__notion-query-database-view",
       "mcp__context7__query-docs",
-      "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_navigate_back",
-      "mcp__plugin_playwright_playwright__browser_snapshot",
-      "mcp__plugin_playwright_playwright__browser_click",
-      "mcp__plugin_playwright_playwright__browser_fill_form",
-      "mcp__plugin_playwright_playwright__browser_type",
-      "mcp__plugin_playwright_playwright__browser_press_key",
-      "mcp__plugin_playwright_playwright__browser_hover",
-      "mcp__plugin_playwright_playwright__browser_drag",
-      "mcp__plugin_playwright_playwright__browser_select_option",
-      "mcp__plugin_playwright_playwright__browser_file_upload",
-      "mcp__plugin_playwright_playwright__browser_handle_dialog",
-      "mcp__plugin_playwright_playwright__browser_take_screenshot",
-      "mcp__plugin_playwright_playwright__browser_tabs",
-      "mcp__plugin_playwright_playwright__browser_close",
-      "mcp__plugin_playwright_playwright__browser_console_messages",
-      "mcp__plugin_playwright_playwright__browser_network_requests",
-      "mcp__plugin_playwright_playwright__browser_evaluate",
-      "mcp__plugin_playwright_playwright__browser_run_code",
-      "mcp__plugin_playwright_playwright__browser_resize",
-      "mcp__plugin_playwright_playwright__browser_wait_for",
-      "mcp__plugin_playwright_playwright__browser_install",
       "WebFetch(domain:surviving-software-architecture.ghost.io)",
       "WebFetch(domain:www.uber.com)",
       "WebFetch(domain:aiven.io)",
@@ -158,14 +133,59 @@
       "WebFetch(domain:netflixtechblog.com)",
       "WebFetch(domain:shopify.engineering)",
       "WebFetch(domain:debezium.io)",
-      "Bash(gcloud logging:*)"
+      "Bash(gcloud logging:*)",
+      "Bash(gcloud auth print-access-token)",
+      "Bash(gcloud monitoring:*)",
+      "Bash(jq:*)",
+      "Bash(sort:*)",
+      "Bash(tr:*)",
+      "Bash(awk:*)",
+      "Bash(cut:*)",
+      "Bash(uniq:*)",
+      "Bash(date:*)",
+      "Bash(lhs:*)"
     ],
     "deny": [],
+    "ask": [],
     "additionalDirectories": [
       "/Users/user/Library/Application Support/Code/User"
     ]
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/credential-guard.sh",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/bash-guard.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/trace-log.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "",
@@ -228,7 +248,7 @@
     "slack@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": false,
     "member-report-manager@light-skills": true,
     "gcp-monitoring@light-skills": true,
     "claude-code-toolkit@light-skills": true,
@@ -245,23 +265,32 @@
     "release-integrity-checker@light-skills": true,
     "create-slides@light-skills": true,
     "gcp-log-tools@light-skills": true,
-    "genshijin@genshijin": true,
-    "agent-sdk-dev@claude-plugins-official": true,
+    "genshijin@genshijin": false,
+    "agent-sdk-dev@claude-plugins-official": false,
     "notion@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "plugin-dev@claude-plugins-official": true,
+    "plugin-dev@claude-plugins-official": false,
     "serena@claude-plugins-official": true,
-    "firebase@claude-plugins-official": true
+    "firebase@claude-plugins-official": false,
+    "dojo@light-skills": false,
+    "retrospective-tools@light-skills": true,
+    "fukai@light-skills": true,
+    "check-release-pr@light-skills": true,
+    "palmu-api-doc@light-skills": true,
+    "review-gaiyosho@light-skills": true,
+    "run-playwright@light-skills": true,
+    "collect-feed@light-skills": true,
+    "win-session-tools@light-skills": true,
+    "post-release-check@light-skills": true,
+    "generate-test-spec@light-skills": true,
+    "slack-1on1-feedback@light-skills": true,
+    "prepare-release-staging@light-skills": true,
+    "cmux-handoff@light-skills": true,
+    "new-desktop-app@light-skills": true,
+    "new-web-app@light-skills": true
   },
   "extraKnownMarketplaces": {
-    "palmu-ai-dashboard": {
-      "source": {
-        "source": "github",
-        "repo": "light-inc/palmu-ai-dashboard"
-      },
-      "autoUpdate": false
-    },
     "light-skills": {
       "source": {
         "source": "github",
@@ -276,5 +305,6 @@
     }
   },
   "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": false
+  "effortLevel": "xhigh",
+  "skipDangerousModePermissionPrompt": true
 }
