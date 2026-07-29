@@ -48,3 +48,11 @@ fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.vite-plus/bin
 fish_add_path $HOME/.volta/bin
 fish_add_path $HOME/.npm-global/bin
+
+# =====================================
+# Python package registry (Flatt Security proxy)
+# =====================================
+# pip の取得先を Takumi Guard 経由にし、悪性パッケージをブロックする。
+# uv は PIP_INDEX_URL を見ないため uv.toml 側で別途設定する。
+set -gx PIP_INDEX_URL https://pypi.flatt.tech/simple/
+set -gx HOMEBREW_GITHUB_API_TOKEN (gh auth token)

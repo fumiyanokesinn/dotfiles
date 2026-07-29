@@ -49,6 +49,6 @@ theme = TokyoNight Night
 #   kitty background_image_layout scaled → Ghostty stretch
 background = 0e1418
 background-image = ~/.config/kitty/backgrounds/ukiyoe.jpg
-background-image-opacity = 0.22
+background-image-opacity = 0.4
 background-image-fit = stretch
 background-image-position = center

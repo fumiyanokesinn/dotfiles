@@ -129,12 +129,16 @@
   "editor.wheelScrollMultiplier": 5,
   "claudeCode.respectGitIgnore": false,
   "claudeCode.disableLoginPrompt": true,
-  "claudeCode.allowDangerouslySkipPermissions": true,
+  "claudeCode.allowDangerouslySkipPermissions": false,
   "css.customData": [".vscode/tailwind4.json"],
   "workbench.colorCustomizations": {
     "diffEditor.insertedTextBackground": "#2ea04366",
     "diffEditor.removedTextBackground": "#f8514966",
     "diffEditor.insertedLineBackground": "#2ea04330",
-    "diffEditor.removedLineBackground": "#f8514930"
+    "diffEditor.removedLineBackground": "#f8514930",
   },
+  "extensions.autoUpdate": "off",
+  "extensions.autoCheckUpdates": false,
+  "files.autoGuessEncoding": true,
+  "background.enabled": true,
 }
