@@ -25,7 +25,9 @@ disabled = true
 disabled = true
 
 [git_branch]
-disabled = true
+disabled = false
+format = "on [$branch]($style) "
+style = "bold purple"
 
 [git_status]
 disabled = true
