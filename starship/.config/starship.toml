@@ -5,6 +5,9 @@
 add_newline = true
 command_timeout = 1000
 
+# ブランチ行は git 管理下でのみ出す（括弧内が空なら改行ごと消える）
+format = "$directory($git_branch$git_status\n)$cmd_duration$character"
+
 # ---- 上段：ディレクトリのみ ----
 [directory]
 format = "[$path]($style) \n"
@@ -29,8 +32,14 @@ disabled = false
 format = "on [$branch]($style) "
 style = "bold purple"
 
+# 上流ブランチとの差分コミット数のみ（⇡ 未push / ⇣ 未pull。⇣ は最後の fetch 時点）
 [git_status]
-disabled = true
+disabled = false
+format = "[$ahead_behind]($style)"
+style = "bold cyan"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇡${ahead_count}⇣${behind_count}"
 
 [git_state]
 disabled = true
@@ -74,8 +83,15 @@ disabled = true
 [cmd_duration]
 disabled = false
 min_time = 0
-format = "took [$duration]($style) "
+format = "took [$duration]($style)\n"
 style = "bold yellow"
 
 [terraform]
+disabled = true
+
+[buf]
+disabled = true
+
+# 各モジュール末尾で改行するため既定の改行は不要
+[line_break]
 disabled = true
